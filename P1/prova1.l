@@ -4,16 +4,34 @@
 #include <string.h>
 
 void yyerror(const char *msg);
-int yylex();
 %}
 
 %option noyywrap
 
 %%
 
-/* copiar E2 e fazer as extensões */
+"//".* {}
+[ \t\r\n]+              {}
 
+"print"                 { return PRINT; }
+"concat"                { return CONCAT; }
+"length"                { return LENGTH; }
 
-.            { return ERROR; }
+[a-zA-Z_][a-zA-Z0-9_]* { return IDENT; }
+[0-9]+                  { return NUM; }
+
+\"[^\"\n]*\"            { return STRING; }
+
+"="                     { return ASSIGN; }
+"("                     { return LPAREN; }
+")"                     { return RPAREN; }
+","                     { return COMMA; }
+
+"+"                     { return '+'; }
+"-"                     { return '-'; }
+"*"                     { return '*'; }
+"/"                     { return '/'; }
+
+.                       { return ERROR; }
 
 %%
